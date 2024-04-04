@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<!-- https://henry.codes/writing/spotify-now-playing/  helped with buffer stuff-->
+<!-- https://leemartin.dev/creating-a-simple-spotify-authorization-popup-in-javascript-7202ce86a02f -->
+
+<!-- 
+var client_id = 'daeea42af07e4702905904f246591317';
+var client_secret = '63d861f8790d4114bf40fb6e2b196636';
+
+steps to set up 
+1. make post request
+  curl -X POST "https://accounts.spotify.com/api/token" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "grant_type=client_credentials&client_id=your-client-id&client_secret=your-client-secret"
+  add client secret and id
+
+  curl -X POST "https://accounts.spotify.com/api/token" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "grant_type=client_credentials&client_id=daeea42af07e4702905904f246591317&client_secret=3ef2f6e66658400490e6add0739a9a3b"
+
+
+  curl "https://api.spotify.com/v1/me/top/tracks" \
+     -H "Authorization: Bearer  BQBMLTjoeNCrxJdAWF7fHEX41SGZ9ZAXJTsm17_k3cGOOP4Lkka36Y-EXYsNuqiEf8rT8rR-1WOZM9yb7Efxg0-Wit6GQJeT4wTaRgG_QrO8ohpsmzk"
+     -d "Scope" : ""
+
+curl "https://accounts.spotify.com/api/token"\
+-H "Content-Type': 'application/x-www-form-urlencoded"
+  2. use access token
+  step 1 should give u ur access token
+      -->
+
+  <head>
+    <title>Example of the Authorization Code flow with Spotify</title>
+  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+  <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+  <script>
+    var client_id = 'daeea42af07e4702905904f246591317';
+    var client_secret = '63d861f8790d4114bf40fb6e2b196636';
+let access_token;
+async function getAccessToken() {
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret)
+    },
+    body: 'grant_type=client_credentials'
+  });
+  const data = await response.json();
+  access_token = data.access_token;
+  console.log(access_token)
+}
+getAccessToken();
+async function getTopTracks() {
+  const response = await fetch('https://api.spotify.com/v1/me/top/tracks', {
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  });
+  const data = await response.json();
+  console.log(data.items)
+  return data.items;
+  
+}
+  </script>
+  <script>
+//     const { Client } = require("spotify-api.js");
+// const client = new Client({ 
+//     token: { clientID: 'daeea42af07e4702905904f246591317', clientSecret: '63d861f8790d4114bf40fb6e2b196636' },
+//     // Ready event is required if you are providing clientID and clientSecret fields.
+//     // As the client has to create the token first with it and then emits the ready event.
+//     onReady() {
+//         console.log(await client.tracks.get('id'));
+//     }
+// })
+
+
+
+//     var redirect_uri = 'http://localhost:8888/callback';
+// var express = require('express')
+// var app = express();
+
+// app.get('/login', function(req, res) {
+
+//   var state = generateRandomString(16);
+//   var scope = 'user-read-private user-read-email';
+
+//   res.redirect('https://accounts.spotify.com/authorize?' +
+//     querystring.stringify({
+//       response_type: 'code',
+//       client_id: client_id,
+//       scope: scope,
+//       redirect_uri: redirect_uri,
+//       state: state
+//     }));
+// });
+//     const client_id = 'daeea42af07e4702905904f246591317';
+// const client_secret = '63d861f8790d4114bf40fb6e2b196636';
+
+
+// let access_token;
+// async function getAccessToken() {
+//   const response = await fetch('https://accounts.spotify.com/api/token', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/x-www-form-urlencoded',
+//       'Authorization': 'Basic ' + 'ZGFlZWE0MmFmMDdlNDcwMjkwNTkwNGYyNDY1OTEzMTc6NjNkODYxZjg3OTBkNDExNGJmNDBmYjZlMmIxOTY2MzY='
+//     },
+//     body: 'grant_type=client_credentials'
+//   });
+//   const data = await response.json();
+//   access_token = data.access_token;
+// }
+// getAccessToken();
+// console.log(access_token)
+
+
+  </script>
+  </body>
+</html>

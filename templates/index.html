@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with Spotify</title>
+</head>
+<body>
+    <button id="loginBtn">Login with Spotify</button>
+    <script>
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            // Redirect user to Spotify login page
+            window.location.href = 'https://accounts.spotify.com/authorize?client_id=daeea42af07e4702905904f246591317&response_type=code&redirect_uri=http://localhost:5000/callback&scope=user-top-read';
+        });
+    </script>
+</body>
+</html>
